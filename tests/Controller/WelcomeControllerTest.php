@@ -15,7 +15,7 @@ class PostControllerTest extends WebTestCase
 
         $this->assertGreaterThan(
             0,
-            $crawler->filter('html:contains("Your application is now ready")')->count()
+            $crawler->filter('html:contains("Kubernetes")')->count()
         );
     }
 }

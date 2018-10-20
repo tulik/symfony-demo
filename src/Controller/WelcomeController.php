@@ -18,7 +18,7 @@ class WelcomeController extends AbstractController
      */
     public function indexAction(): Response
     {
-        $baseDir = realpath($this->projectDir).\DIRECTORY_SEPARATOR;
+        $baseDir = \realpath($this->projectDir).\DIRECTORY_SEPARATOR;
         $docVersion = substr(Kernel::VERSION, 0, 3);
 
         return $this->render(

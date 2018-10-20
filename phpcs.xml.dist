@@ -1,49 +1,110 @@
-<?php
+<?xml version="1.0" encoding="UTF-8"?>
 
-declare(strict_types=1);
+<?xml version="1.0" encoding="UTF-8"?>
 
-if (!file_exists(__DIR__.'/src')) {
-    exit(0);
-}
+<ruleset name="Symfony">
+    <description>The Symfony coding standard.</description>
 
-return PhpCsFixer\Config::create()
-    ->setRiskyAllowed(true)
-    ->setRules(
-        [
-            '@Symfony' => true,
-            '@Symfony:risky' => true,
-            '@PHP71Migration' => true,
-            'array_syntax' => ['syntax' => 'short'],
-            'dir_constant' => true,
-            'heredoc_to_nowdoc' => true,
-            'linebreak_after_opening_tag' => true,
-            'modernize_types_casting' => true,
-            'no_multiline_whitespace_before_semicolons' => true,
-            'no_unreachable_default_argument_value' => true,
-            'no_useless_else' => true,
-            'no_useless_return' => true,
-            'ordered_class_elements' => true,
-            'ordered_imports' => true,
-            'phpdoc_add_missing_param_annotation' => ['only_untyped' => false],
-            'phpdoc_order' => true,
-            'declare_strict_types' => true,
-            'doctrine_annotation_braces' => true,
-            'doctrine_annotation_indentation' => true,
-            'doctrine_annotation_spaces' => true,
-            'psr4' => true,
-            'no_php4_constructor' => true,
-            'no_short_echo_tag' => true,
-            'semicolon_after_instruction' => true,
-            'align_multiline_comment' => true,
-            'doctrine_annotation_array_assignment' => true,
-            'general_phpdoc_annotation_remove' => ['annotations' => ['author', 'package']],
-            'list_syntax' => ['syntax' => 'short'],
-            'phpdoc_types_order' => ['null_adjustment' => 'always_last'],
-            'single_line_comment_style' => true,
-            'fully_qualified_strict_types' => true,
-        ]
-    )
-    ->setFinder(
-        PhpCsFixer\Finder::create()
-            ->in(__DIR__.'/src')
-    );
+    <!-- There should not be any code in the bundle Resources directory. -->
+    <exclude-pattern>*/Resources/*</exclude-pattern>
+
+    <!-- Symfony follows the standards defined in the PSR-0, PSR-1 and PSR-2 documents. -->
+
+    <!-- Include the whole PSR-1 standard -->
+    <rule ref="PSR1"/>
+    <!-- Include the whole PSR-2 standard -->
+    <rule ref="PSR2"/>
+    <!--
+    See the [documented coding standard](http://symfony.com/doc/current/contributing/code/standards.html)
+    -->
+
+    <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+    <rule ref="Generic.Formatting.SpaceAfterCast"/>
+    <rule ref="Generic.Functions.CallTimePassByReference"/>
+    <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+    <rule ref="Generic.PHP.LowerCaseConstant"/>
+    <rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
+    <rule ref="Squiz.ControlStructures.ControlSignature"/>
+    <rule ref="Squiz.ControlStructures.ForEachLoopDeclaration"/>
+    <rule ref="Squiz.ControlStructures.ForLoopDeclaration"/>
+    <rule ref="Squiz.ControlStructures.LowercaseDeclaration"/>
+    <rule ref="Squiz.PHP.LowercasePHPFunctions"/>
+    <rule ref="Squiz.Scope.MemberVarScope"/>
+    <rule ref="Squiz.Strings.ConcatenationSpacing"/>
+
+    <!-- We provide our own subclass of PEAR's ClassComment and FunctionComment sniff, but these will do: -->
+    <rule ref="PEAR.Commenting.InlineComment"/>
+
+    <!-- Import Zend coding standard (which in turn imports PEAR) -->
+    <rule ref="Zend">
+        <!-- but exclude their code analyzer -->
+        <exclude name="Zend.Debug.CodeAnalyzer"/>
+
+        <!-- covered by Squiz ControlSignature, which enforces try/catch as well -->
+        <exclude name="PEAR.ControlStructures.ControlSignature"/>
+
+        <exclude name="PEAR.Commenting.FunctionComment.SpacingBeforeTags"/>
+
+        <!-- do not check line length -->
+        <exclude name="Generic.Files.LineLength"/>
+
+        <!-- covered by Squiz FunctionDeclarationSniff -->
+        <exclude name="Generic.Functions.OpeningFunctionBraceBsdAllman.BraceOnSameLine"/>
+    </rule>
+
+    <!-- Don't enforce Zend's private member underscores -->
+    <rule ref="Zend.NamingConventions.ValidVariableName.PrivateNoUnderscore">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Ignore variables that contains numbers -->
+    <rule ref="Zend.NamingConventions.ValidVariableName.ContainsNumbers">
+        <severity>0</severity>
+    </rule>
+
+    <!-- In practice, Symfony2 spaces multiline function calls differently than Zend -->
+    <rule ref="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket">
+        <severity>0</severity>
+    </rule>
+    <rule ref="PEAR.Functions.FunctionCallSignature.SpaceAfterCloseBracket">
+        <severity>0</severity>
+    </rule>
+    <rule ref="PEAR.Functions.FunctionCallSignature.CloseBracketLine">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="Symfony.Commenting.FunctionComment.MissingParamComment">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="Symfony.Commenting.FunctionComment.Missing">
+        <type>error</type>
+    </rule>
+
+    <rule ref="Symfony.Commenting.ClassComment.Missing">
+        <type>error</type>
+    </rule>
+
+    <rule ref="Symfony.Commenting.ClassComment.Blacklisted">
+        <type>error</type>
+    </rule>
+
+    <rule ref="Symfony.Commenting.FunctionComment.MissingReturn">
+        <type>error</type>
+    </rule>
+
+    <rule ref="Symfony.Commenting.FunctionComment.SpacingBeforeTags">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="Symfony.Commenting.ClassComment.SpacingBeforeTags">
+        <message>There should always be a description, followed by a blank line, before the tags of a class comment.</message>
+    </rule>
+
+    <file>bin/</file>
+    <file>config/</file>
+    <file>public/</file>
+    <file>src/</file>
+    <file>tests/</file>
+
+</ruleset>

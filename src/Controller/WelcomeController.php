@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +21,7 @@ class WelcomeController extends AbstractController
         $baseDir = realpath($this->projectDir).\DIRECTORY_SEPARATOR;
         $docVersion = substr(Kernel::VERSION, 0, 3);
 
-       return $this->render(
+        return $this->render(
            'welcome.html.php',
            [
                'version' => Kernel::VERSION,
@@ -28,4 +30,3 @@ class WelcomeController extends AbstractController
            ]);
     }
 }
-
